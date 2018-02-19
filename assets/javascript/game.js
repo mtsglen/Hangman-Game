@@ -50,7 +50,7 @@ var html =
           if (answer.indexOf("_", 0) == -1){
             document.getElementById("game").innerHTML = ((answer.join(" ")) + "<p>" + win + "</p>");
             wins = wins + 1;
-          e
+          
     // hangman();
   };
 
