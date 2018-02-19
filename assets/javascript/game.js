@@ -28,14 +28,17 @@ var html =
 
   document.getElementById("game").innerHTML = answer.join(" ");
   // document.getElementById('info').innerHTML = html
-
-  document.onkeyup = function() {
+function game () {
+  document.onkeyup = function () {
     letter = event.key;
     if (letters.indexOf(letter, 0) != -1){
-        guesses = guesses - 1
+        // guesses = guesses - 1
         guessedLetter.push(letter);
         console.log(guessedLetter);
         console.log(guessed);
+        if (rand.indexOf(letter, 0) == -1){
+            guesses = guesses - 1
+          }
         for (var j = 0; j < rand.length; j++){
           if (letter == rand[j]){
             answer.splice(j, 1, letter);
@@ -44,23 +47,34 @@ var html =
           html =
                 "<p>Wins: " + wins + "</p>" +
                 "<p>Losses: " + losses + "</p>" +
-                "<p>Guessed Letters: " + guessed + "</p>" +
+                "<p>Guessed Letters: " + guessedLetter.join(" ") + "</p>" +
                 "<p>Guesses Remaining: " + guesses + "</p>";
-          document.getElementById("game").innerHTML = answer.join(" ");  
+          document.getElementById("game").innerHTML = answer.join(" "); 
+          //determine if win or lose and increment by 1 
           if (answer.indexOf("_", 0) == -1){
             document.getElementById("game").innerHTML = ((answer.join(" ")) + "<p>" + win + "</p>");
             wins = wins + 1;
-          
-    // hangman();
-  };
+            resetGame();
+        } else if (guesses == 0) { 
+            losses = losses + 1;
+            resetGame();
+        };
+        letters.splice((letters.indexOf(letter)), 1, "");
 
     document.getElementById('info').innerHTML = html;
         };
     };   
     // document.getElementById("game").innerHTML = answer.join(" ");
-  };
-// };
-
-
-
-    
+  }
+};
+game();
+  function resetGame () {
+      document.onkeyup = function (){
+      rand = words[Math.floor(Math.random() * words.length)];
+      letters = ["a","b", "c", "d", "e","f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+      guessedLetter = [];
+      for (var i=0; i < rand.length; i++) {
+        answer[i] = '_';
+      document.getElementById("game").innerHTML = answer.join(" ");
+      game();
+}}};  
